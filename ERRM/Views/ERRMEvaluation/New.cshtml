@@ -96,6 +96,54 @@
         </div>
     </section>
 
+    <section class="col-12">
+        <h2 class="h4">Evaluation questions</h2>
+        <div class="row g-3">
+            @for (var i = 0; i < Model.CriteriaAnswers.Count; i++)
+            {
+                <div class="col-12">
+                    <div class="border rounded p-3">
+                        <input asp-for="CriteriaAnswers[i].Title" type="hidden" />
+                        <input asp-for="CriteriaAnswers[i].Description" type="hidden" />
+                        <input asp-for="CriteriaAnswers[i].RatingScale" type="hidden" />
+                        <input asp-for="CriteriaAnswers[i].CommentAllowed" type="hidden" />
+
+                        <h3 class="h5 mb-1">@Model.CriteriaAnswers[i].Title</h3>
+                        <p class="text-muted mb-3">@Model.CriteriaAnswers[i].Description</p>
+
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <label asp-for="CriteriaAnswers[i].Rating" class="form-label">Rating (1-5)</label>
+                                <select asp-for="CriteriaAnswers[i].Rating" class="form-select">
+                                    <option value="">Select rating</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                                <span asp-validation-for="CriteriaAnswers[i].Rating" class="text-danger"></span>
+                            </div>
+
+                            @if (Model.CriteriaAnswers[i].CommentAllowed)
+                            {
+                                <div class="col-md-9">
+                                    <label asp-for="CriteriaAnswers[i].Comment" class="form-label">Comment</label>
+                                    <textarea asp-for="CriteriaAnswers[i].Comment" class="form-control" rows="2"></textarea>
+                                    <span asp-validation-for="CriteriaAnswers[i].Comment" class="text-danger"></span>
+                                </div>
+                            }
+                            else
+                            {
+                                <input asp-for="CriteriaAnswers[i].Comment" type="hidden" />
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+
     <div class="col-12">
         <button type="submit" class="btn btn-primary">Save evaluation</button>
     </div>

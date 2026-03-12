@@ -4,7 +4,10 @@ using ERRM.Repository;
 
 namespace ERRM.Controllers
 {
-    public class ERRMEvaluationController(IEvaluationRepository evaluationRepository) : Controller
+    public class ERRMEvaluationController(
+        IEvaluationRepository evaluationRepository,
+        IEvaluationCriteriaRepository evaluationCriteriaRepository)
+        : Controller
     {
         // GET: ERRMEvaluationController
         public async Task<ActionResult> Index()
@@ -13,9 +16,31 @@ namespace ERRM.Controllers
             return View(evaluations);
         }
 
-        public ActionResult New()
+        public async Task<ActionResult> New()
         {
-            return View();
+            var criterias = await evaluationCriteriaRepository.GetAllAsync();
+
+            var model = new EvaluationViewModel
+            {
+                CompanyName = string.Empty,
+                CompanyLocation = string.Empty,
+                IssuingLocation = string.Empty,
+                FirstSignerName = string.Empty,
+                Salutation = string.Empty,
+                FirstName = string.Empty,
+                LastName = string.Empty,
+                Department = string.Empty,
+                Position = string.Empty,
+                CriteriaAnswers = criterias.Select(criteria => new EvaluationCriteriaAnswerViewModel
+                {
+                    Title = criteria.Title,
+                    Description = criteria.Description,
+                    RatingScale = criteria.RatingScale,
+                    CommentAllowed = criteria.CommentAllowed
+                }).ToList()
+            };
+
+            return View(model);
         }
 
         [HttpPost]

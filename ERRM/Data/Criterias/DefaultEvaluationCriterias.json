@@ -1,0 +1,70 @@
+{
+  "evaluationCriterias": [
+    {
+      "title": "Professional Knowledge",
+      "description": "Assessment of professional expertise and job-related competence.",
+      "ratingScale": "1-5",
+      "commentAllowed": true
+    },
+    {
+      "title": "Further Training (optional)",
+      "description": "Assessment of participation in further training and personal professional development.",
+      "ratingScale": "1-5",
+      "commentAllowed": true
+    },
+    {
+      "title": "Comprehension / Analytical Thinking",
+      "description": "Ability to quickly understand complex matters and analyze them logically.",
+      "ratingScale": "1-5",
+      "commentAllowed": true
+    },
+    {
+      "title": "Commitment to Performance",
+      "description": "Level of commitment, initiative, and willingness to contribute.",
+      "ratingScale": "1-5",
+      "commentAllowed": false
+    },
+    {
+      "title": "Resilience",
+      "description": "Ability to work reliably under pressure or heavy workload.",
+      "ratingScale": "1-5",
+      "commentAllowed": false
+    },
+    {
+      "title": "Working Style",
+      "description": "Quality of work organization, structure, efficiency, and independence.",
+      "ratingScale": "1-5",
+      "commentAllowed": false
+    },
+    {
+      "title": "Reliability / Integrity",
+      "description": "Reliability, integrity, and adherence to agreements and rules.",
+      "ratingScale": "1-5",
+      "commentAllowed": false
+    },
+    {
+      "title": "Work Results",
+      "description": "Quality, accuracy, and completeness of delivered work results.",
+      "ratingScale": "1-5",
+      "commentAllowed": false
+    },
+    {
+      "title": "Overall Performance Assessment",
+      "description": "Overall assessment of professional performance.",
+      "ratingScale": "1-5",
+      "commentAllowed": true
+    },
+    {
+      "title": "Behavior",
+      "description": "Conduct and interaction with colleagues, supervisors, customers, and partners.",
+      "ratingScale": "1-5",
+      "commentAllowed": true
+    },
+    {
+      "title": "Final Statement",
+      "description": "Final overall remark and summary of the evaluation.",
+      "ratingScale": "1-5",
+      "commentAllowed": true
+    }
+  ]
+}

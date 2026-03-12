@@ -35,4 +35,7 @@ public class EvaluationViewModel
     public required string Position { get; set; }
     [Display(Name = "Start date")]
     public DateOnly StartDate { get; set; }
+
+    // Evaluation criteria answers
+    public List<EvaluationCriteriaAnswerViewModel> CriteriaAnswers { get; set; } = [];
 }
