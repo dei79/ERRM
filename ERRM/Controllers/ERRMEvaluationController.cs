@@ -10,5 +10,10 @@ namespace ERRM.Controllers
             return View();
         }
 
+        public ActionResult New()
+        {
+            return View();
+        }
+
     }
 }
