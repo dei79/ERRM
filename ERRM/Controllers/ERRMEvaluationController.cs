@@ -5,8 +5,7 @@ using ERRM.Repository;
 namespace ERRM.Controllers
 {
     public class ERRMEvaluationController(
-        IEvaluationRepository evaluationRepository,
-        IEvaluationCriteriaRepository evaluationCriteriaRepository)
+        IEvaluationRepository evaluationRepository)
         : Controller
     {
         // GET: ERRMEvaluationController
@@ -18,8 +17,6 @@ namespace ERRM.Controllers
 
         public async Task<ActionResult> New()
         {
-            var criterias = await evaluationCriteriaRepository.GetAllAsync();
-
             var model = new EvaluationViewModel
             {
                 CompanyName = string.Empty,
@@ -31,15 +28,25 @@ namespace ERRM.Controllers
                 LastName = string.Empty,
                 Department = string.Empty,
                 Position = string.Empty,
-                CriteriaAnswers = criterias.Select(criteria => new EvaluationCriteriaAnswerViewModel
-                {
-                    Title = criteria.Title,
-                    Description = criteria.Description,
-                    RatingScale = criteria.RatingScale,
-                    CommentAllowed = criteria.CommentAllowed
-                }).ToList()
+                CriteriaAnswers = []
             };
 
+            model.CriteriaAnswers.Add(new EvaluationCriteriaAnswerViewModel() 
+            { 
+                Title = "Work quality", 
+                Description = "Evaluate the quality of work produced by the employee.", 
+                RatingScale = "1-5", 
+                CommentAllowed = true 
+            });
+            
+            model.CriteriaAnswers.Add(new EvaluationCriteriaAnswerViewModel() 
+            { 
+                Title = "Communication skills", 
+                Description = "Assess the employee's ability to communicate effectively.", 
+                RatingScale = "1-5", 
+                CommentAllowed = true 
+            });
+            
             return View(model);
         }
 
