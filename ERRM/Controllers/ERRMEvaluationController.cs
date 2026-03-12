@@ -1,18 +1,34 @@
 using Microsoft.AspNetCore.Mvc;
+using ERRM.Models;
+using ERRM.Repository;
 
 namespace ERRM.Controllers
 {
-    public class ERRMEvaluationController : Controller
+    public class ERRMEvaluationController(IEvaluationRepository evaluationRepository) : Controller
     {
         // GET: ERRMEvaluationController
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            return View();
+            var evaluations = await evaluationRepository.GetAllAsync();
+            return View(evaluations);
         }
 
         public ActionResult New()
         {
             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> New(EvaluationViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            await evaluationRepository.SaveAsync(model);
+            return RedirectToAction(nameof(Index));
         }
 
     }

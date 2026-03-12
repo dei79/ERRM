@@ -1,7 +1,10 @@
+using ERRM.Repository;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddSingleton<IEvaluationRepository, JsonFileEvaluationRepository>();
 
 var app = builder.Build();
 

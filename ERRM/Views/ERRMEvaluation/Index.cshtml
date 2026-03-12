@@ -1,8 +1,45 @@
+@model IReadOnlyList<ERRM.Models.EvaluationViewModel>
+
 @{
     ViewData["Title"] = "Evaluations";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome to all evaluations</h1>
-    <a class="btn btn-primary mt-3" asp-controller="ERRMEvaluation" asp-action="New">New evaluation</a>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="display-5 mb-0">Evaluations</h1>
+    <a class="btn btn-primary" asp-controller="ERRMEvaluation" asp-action="New">New evaluation</a>
 </div>
+
+@if (Model.Count == 0)
+{
+    <p>No evaluations stored yet.</p>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered align-middle">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Date of birth</th>
+                    <th>Department</th>
+                    <th>Position</th>
+                    <th>Company</th>
+                    <th>Start date</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var evaluation in Model)
+                {
+                    <tr>
+                        <td>@evaluation.Salutation @evaluation.FirstName @evaluation.LastName</td>
+                        <td>@evaluation.DateOfBirth.ToString("yyyy-MM-dd")</td>
+                        <td>@evaluation.Department</td>
+                        <td>@evaluation.Position</td>
+                        <td>@evaluation.CompanyName</td>
+                        <td>@evaluation.StartDate.ToString("yyyy-MM-dd")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
