@@ -1,4 +1,5 @@
 using ERRM.Repository;
+using ERRM.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,6 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<IEvaluationRepository, JsonFileEvaluationRepository>();
 builder.Services.AddSingleton<IEvaluationCriteriaRepository, JsonFileDefaultEvaluationCriteriaRepository>();
+builder.Services.AddSingleton<ITemplateEngineService, SimpleTemplateEngineService>();
+builder.Services.AddSingleton<IEvaluationFormulationService, RuleBasedEvaluationFormulationService>();
 
 var app = builder.Build();
 

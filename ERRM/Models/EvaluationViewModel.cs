@@ -4,6 +4,10 @@ namespace ERRM.Models;
 
 public class EvaluationViewModel
 {
+    public string Id { get; set; } = string.Empty;
+
+    public DateTime CreatedAtUtc { get; set; }
+
     // Issuer information
     [Display(Name = "Company name")]
     public required string CompanyName { get; set; }

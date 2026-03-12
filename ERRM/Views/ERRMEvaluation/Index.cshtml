@@ -25,6 +25,7 @@ else
                     <th>Position</th>
                     <th>Company</th>
                     <th>Start date</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -37,6 +38,17 @@ else
                         <td>@evaluation.Position</td>
                         <td>@evaluation.CompanyName</td>
                         <td>@evaluation.StartDate.ToString("yyyy-MM-dd")</td>
+                        <td>
+                            @if (!string.IsNullOrWhiteSpace(evaluation.Id))
+                            {
+                                <a class="btn btn-sm btn-outline-primary"
+                                   asp-controller="ERRMEvaluation"
+                                   asp-action="Result"
+                                   asp-route-id="@evaluation.Id">
+                                    Show report
+                                </a>
+                            }
+                        </td>
                     </tr>
                 }
             </tbody>

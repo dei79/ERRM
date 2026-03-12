@@ -1,0 +1,21 @@
+{{CompanyName}}
+{{CompanyLocation}}
+
+{{IssuingLocation}}, {{CurrentDate}}
+
+Subject: Performance evaluation for {{FullName}}
+
+Dear {{Salutation}} {{LastName}},
+
+This report documents the performance evaluation for {{FullName}}, born on {{DateOfBirth}}, who has been employed as {{Position}} in the {{Department}} department since {{StartDate}}.
+
+Based on the completed evaluation, the overall performance is assessed as {{OverallLabelLower}} with an average rating of {{AverageRating}}.
+
+Criteria-based assessment:
+{{CriteriaSummary}}
+
+The assessment is recorded for the personnel file of {{CompanyName}}.
+
+Sincerely,
+
+{{SignerBlock}}
