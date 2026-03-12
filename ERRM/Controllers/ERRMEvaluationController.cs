@@ -36,6 +36,7 @@ namespace ERRM.Controllers
                     Title = criteria.Title,
                     Description = criteria.Description,
                     RatingScale = criteria.RatingScale,
+                    RatingScaleFormulations = criteria.RatingScaleFormulations,
                     CommentAllowed = criteria.CommentAllowed
                 }).ToList()
             };

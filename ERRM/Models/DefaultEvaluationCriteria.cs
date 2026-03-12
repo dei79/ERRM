@@ -13,6 +13,9 @@ public class DefaultEvaluationCriteria
     [JsonPropertyName("ratingScale")]
     public string RatingScale { get; set; } = string.Empty;
 
+    [JsonPropertyName("ratingScaleFormulations")]
+    public Dictionary<string, string> RatingScaleFormulations { get; set; } = [];
+
     [JsonPropertyName("commentAllowed")]
     public bool CommentAllowed { get; set; }
 }

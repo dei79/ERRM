@@ -4,66 +4,143 @@
       "title": "Professional Knowledge",
       "description": "Assessment of professional expertise and job-related competence.",
       "ratingScale": "1-5",
+      "ratingScaleFormulations": {
+        "1": "Shows significant gaps in required professional knowledge.",
+        "2": "Demonstrates basic professional knowledge with noticeable limitations.",
+        "3": "Meets expectations with solid and reliable professional knowledge.",
+        "4": "Shows strong professional knowledge and applies it confidently.",
+        "5": "Demonstrates outstanding professional knowledge at an expert level."
+      },
       "commentAllowed": true
     },
     {
       "title": "Further Training (optional)",
       "description": "Assessment of participation in further training and personal professional development.",
       "ratingScale": "1-5",
+      "ratingScaleFormulations": {
+        "1": "Shows no relevant engagement in further training or professional development.",
+        "2": "Participates only occasionally in further training with limited impact.",
+        "3": "Takes part in relevant further training at an appropriate level.",
+        "4": "Actively pursues further training and applies new knowledge effectively.",
+        "5": "Shows exceptional commitment to continuous learning and development."
+      },
       "commentAllowed": true
     },
     {
       "title": "Comprehension / Analytical Thinking",
       "description": "Ability to quickly understand complex matters and analyze them logically.",
       "ratingScale": "1-5",
+      "ratingScaleFormulations": {
+        "1": "Has substantial difficulty understanding and analyzing complex matters.",
+        "2": "Understands straightforward issues but struggles with complexity.",
+        "3": "Analyzes tasks reliably and understands complex matters adequately.",
+        "4": "Quickly understands complex matters and analyzes them in a structured way.",
+        "5": "Grasps complex matters exceptionally fast and analyzes them with outstanding clarity."
+      },
       "commentAllowed": true
     },
     {
       "title": "Commitment to Performance",
       "description": "Level of commitment, initiative, and willingness to contribute.",
       "ratingScale": "1-5",
+      "ratingScaleFormulations": {
+        "1": "Shows very limited commitment, initiative, and willingness to contribute.",
+        "2": "Displays inconsistent commitment and only occasional initiative.",
+        "3": "Meets expectations with a dependable level of commitment and initiative.",
+        "4": "Shows strong commitment and regularly contributes proactively.",
+        "5": "Demonstrates exceptional commitment and consistently exceeds expectations."
+      },
       "commentAllowed": false
     },
     {
       "title": "Resilience",
       "description": "Ability to work reliably under pressure or heavy workload.",
       "ratingScale": "1-5",
+      "ratingScaleFormulations": {
+        "1": "Has major difficulty maintaining performance under pressure.",
+        "2": "Copes with pressure only to a limited extent.",
+        "3": "Remains reliable under normal pressure and workload.",
+        "4": "Handles pressure well and stays dependable under heavy workload.",
+        "5": "Performs exceptionally well and remains composed even under very high pressure."
+      },
       "commentAllowed": false
     },
     {
       "title": "Working Style",
       "description": "Quality of work organization, structure, efficiency, and independence.",
       "ratingScale": "1-5",
+      "ratingScaleFormulations": {
+        "1": "Work is poorly structured, inefficient, and requires close supervision.",
+        "2": "Shows partial structure and independence but with clear weaknesses.",
+        "3": "Works in an organized, efficient, and sufficiently independent manner.",
+        "4": "Works in a highly structured, efficient, and independent manner.",
+        "5": "Shows an exemplary working style with outstanding structure, efficiency, and independence."
+      },
       "commentAllowed": false
     },
     {
       "title": "Reliability / Integrity",
       "description": "Reliability, integrity, and adherence to agreements and rules.",
       "ratingScale": "1-5",
+      "ratingScaleFormulations": {
+        "1": "Frequently fails to meet agreements or expected standards of integrity.",
+        "2": "Is only partly reliable and shows inconsistencies in adherence to rules.",
+        "3": "Acts reliably and with appropriate integrity in line with expectations.",
+        "4": "Is highly reliable and consistently acts with integrity.",
+        "5": "Shows exceptional reliability, integrity, and trustworthiness at all times."
+      },
       "commentAllowed": false
     },
     {
       "title": "Work Results",
       "description": "Quality, accuracy, and completeness of delivered work results.",
       "ratingScale": "1-5",
+      "ratingScaleFormulations": {
+        "1": "Work results are frequently incomplete, inaccurate, or below expectations.",
+        "2": "Work results show noticeable weaknesses in quality or completeness.",
+        "3": "Delivers work results of acceptable quality, accuracy, and completeness.",
+        "4": "Delivers high-quality, accurate, and complete work results.",
+        "5": "Consistently delivers outstanding work results of exceptional quality."
+      },
       "commentAllowed": false
     },
     {
       "title": "Overall Performance Assessment",
       "description": "Overall assessment of professional performance.",
       "ratingScale": "1-5",
+      "ratingScaleFormulations": {
+        "1": "Overall performance is clearly below expectations.",
+        "2": "Overall performance partially meets expectations but has clear deficits.",
+        "3": "Overall performance meets expectations reliably.",
+        "4": "Overall performance is strong and above expectations.",
+        "5": "Overall performance is outstanding and consistently exceeds expectations."
+      },
       "commentAllowed": true
     },
     {
       "title": "Behavior",
       "description": "Conduct and interaction with colleagues, supervisors, customers, and partners.",
       "ratingScale": "1-5",
+      "ratingScaleFormulations": {
+        "1": "Behavior is frequently inappropriate or problematic in professional interactions.",
+        "2": "Behavior is mostly acceptable but shows recurring weaknesses.",
+        "3": "Behavior is professional and appropriate in daily interactions.",
+        "4": "Behavior is consistently positive, cooperative, and professional.",
+        "5": "Behavior is exemplary and strengthens collaboration with all stakeholders."
+      },
       "commentAllowed": true
     },
     {
       "title": "Final Statement",
       "description": "Final overall remark and summary of the evaluation.",
       "ratingScale": "1-5",
+      "ratingScaleFormulations": {
+        "1": "The final overall assessment is clearly unsatisfactory.",
+        "2": "The final overall assessment is below expectations in important areas.",
+        "3": "The final overall assessment is satisfactory and appropriate.",
+        "4": "The final overall assessment is very positive.",
+        "5": "The final overall assessment is exceptionally positive and highly favorable."
+      },
       "commentAllowed": true
     }
   ]

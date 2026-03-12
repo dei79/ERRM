@@ -10,6 +10,8 @@ public class EvaluationCriteriaAnswerViewModel
 
     public string RatingScale { get; set; } = "1-5";
 
+    public Dictionary<string, string> RatingScaleFormulations { get; set; } = [];
+
     public bool CommentAllowed { get; set; }
 
     [Required]
