@@ -9,6 +9,7 @@ builder.Services.AddOpenAI(builder.Configuration);
 builder.Services.AddSingleton<IEvaluationRepository, JsonFileEvaluationRepository>();
 builder.Services.AddSingleton<IEvaluationCriteriaRepository, JsonFileDefaultEvaluationCriteriaRepository>();
 builder.Services.AddSingleton<ITemplateEngineService, SimpleTemplateEngineService>();
+builder.Services.AddSingleton<IPromptGenerator, EvaluationPromptGenerator>();
 builder.Services.AddSingleton<IEvaluationFormulationService, RuleBasedEvaluationFormulationService>();
 
 var app = builder.Build();
