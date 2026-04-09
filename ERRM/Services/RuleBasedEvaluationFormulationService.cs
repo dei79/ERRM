@@ -21,24 +21,37 @@ public class RuleBasedEvaluationFormulationService : IEvaluationFormulationServi
             "EvaluationReportTemplate.txt");
     }
 
-    public Task<EvaluationResultViewModel> GenerateAsync(
+    public async IAsyncEnumerable<ReportGenerationUpdate> StreamAsync(
         EvaluationViewModel evaluation,
-        CancellationToken cancellationToken = default)
+        [System.Runtime.CompilerServices.EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        var criteriaResults = EvaluationReportMetadata.CreateCriteriaResults(evaluation);
-        var averageRating = EvaluationReportMetadata.CalculateAverageRating(criteriaResults);
-        var overallLabel = EvaluationReportMetadata.GetOverallLabel(averageRating);
+        await Task.CompletedTask;
 
-        return Task.FromResult(new EvaluationResultViewModel
+        var result = EvaluationReportMetadata.CreateResultSkeleton(evaluation, "Rule-based template", _templatePath);
+        result.RenderedReport = BuildRenderedReport(
+            evaluation,
+            result.CriteriaResults,
+            result.AverageRating,
+            result.OverallLabel);
+
+        foreach (var line in result.RenderedReport.Split(Environment.NewLine))
         {
-            Evaluation = evaluation,
-            OverallLabel = overallLabel,
-            AverageRating = averageRating,
-            CriteriaResults = criteriaResults,
-            RenderedReport = BuildRenderedReport(evaluation, criteriaResults, averageRating, overallLabel),
-            TemplatePath = _templatePath,
-            GenerationSource = "Rule-based template"
-        });
+            if (!string.IsNullOrEmpty(line))
+            {
+                // The rule-based version also emits the report piece by piece so both implementations
+                // share the same streaming contract, even though this text is already available upfront.
+                yield return new ReportGenerationUpdate
+                {
+                    Type = "content",
+                    Content = $"{line}{Environment.NewLine}"
+                };
+            }
+        }
+
+        yield return new ReportGenerationUpdate
+        {
+            Type = "complete"
+        };
     }
 
     private string BuildRenderedReport(

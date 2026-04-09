@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using ERRM.Models;
 using ERRM.Repository;
@@ -64,8 +65,30 @@ namespace ERRM.Controllers
                 return NotFound();
             }
 
-            var result = await evaluationFormulationService.GenerateAsync(evaluation, cancellationToken);
+            var result = EvaluationReportMetadata.CreateResultSkeleton(evaluation, "OpenAI ChatClient");
             return View(result);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task StreamReport(string id, CancellationToken cancellationToken)
+        {
+            var evaluation = await evaluationRepository.GetByIdAsync(id);
+            if (evaluation is null)
+            {
+                Response.StatusCode = StatusCodes.Status404NotFound;
+                return;
+            }
+
+            Response.StatusCode = StatusCodes.Status200OK;
+            Response.ContentType = "application/x-ndjson";
+
+            await foreach (var update in evaluationFormulationService.StreamAsync(evaluation, cancellationToken))
+            {
+                await JsonSerializer.SerializeAsync(Response.Body, update, cancellationToken: cancellationToken);
+                await Response.WriteAsync("\n", cancellationToken);
+                await Response.Body.FlushAsync(cancellationToken);
+            }
         }
 
         private async Task PopulateCriteriaMetadataAsync(EvaluationViewModel model)

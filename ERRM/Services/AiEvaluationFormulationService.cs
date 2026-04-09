@@ -8,42 +8,72 @@ public class AiEvaluationFormulationService(
     IPromptGenerator promptGenerator,
     ILogger<AiEvaluationFormulationService> logger) : IEvaluationFormulationService
 {
-    public async Task<EvaluationResultViewModel> GenerateAsync(
+    public IAsyncEnumerable<ReportGenerationUpdate> StreamAsync(
         EvaluationViewModel evaluation,
         CancellationToken cancellationToken = default)
     {
-        var criteriaResults = EvaluationReportMetadata.CreateCriteriaResults(evaluation);
-        var averageRating = EvaluationReportMetadata.CalculateAverageRating(criteriaResults);
-        var overallLabel = EvaluationReportMetadata.GetOverallLabel(averageRating);
+        return StreamCoreAsync(evaluation, cancellationToken);
+    }
+
+    // IAsyncEnumerable lets us produce multiple values over time instead of returning one final result.
+    // Here each yielded ReportGenerationUpdate becomes one streamed chunk that the controller can forward
+    // immediately to the browser while the LLM is still generating the report.
+    private async IAsyncEnumerable<ReportGenerationUpdate> StreamCoreAsync(
+        EvaluationViewModel evaluation,
+        [System.Runtime.CompilerServices.EnumeratorCancellation] CancellationToken cancellationToken)
+    {
         var prompt = promptGenerator.GenerateEvaluationPrompt(evaluation);
+        await using var enumerator = chatClient.GetStreamingResponseAsync(prompt.Messages, cancellationToken: cancellationToken)
+            .GetAsyncEnumerator(cancellationToken);
+        string? errorMessage = null;
 
-        try
+        while (true)
         {
-            var response = await chatClient.GetResponseAsync(prompt.Messages, cancellationToken: cancellationToken);
+            ChatResponseUpdate update;
 
-            return new EvaluationResultViewModel
+            try
             {
-                Evaluation = evaluation,
-                OverallLabel = overallLabel,
-                AverageRating = averageRating,
-                CriteriaResults = criteriaResults,
-                RenderedReport = response.Text,
-                GenerationSource = "OpenAI ChatClient"
-            };
+                if (!await enumerator.MoveNextAsync())
+                {
+                    break;
+                }
+
+                update = enumerator.Current;
+            }
+
+            catch (Exception exception)
+            {
+                logger.LogError(exception, "AI report generation failed for evaluation {EvaluationId}.", evaluation.Id);
+                errorMessage = "The AI report could not be generated. Check the OpenAI configuration and try again.";
+                break;
+            }
+
+            if (!string.IsNullOrEmpty(update.Text))
+            {
+                // "yield return" sends one chunk immediately to the caller instead of waiting
+                // until the whole report is finished. This is what enables visible streaming in the browser.
+                yield return new ReportGenerationUpdate
+                {
+                    Type = "content",
+                    Content = update.Text
+                };
+            }
         }
-        catch (Exception exception)
+
+        if (!string.IsNullOrEmpty(errorMessage))
         {
-            logger.LogError(exception, "AI report generation failed for evaluation {EvaluationId}.", evaluation.Id);
-
-            return new EvaluationResultViewModel
+            yield return new ReportGenerationUpdate
             {
-                Evaluation = evaluation,
-                OverallLabel = overallLabel,
-                AverageRating = averageRating,
-                CriteriaResults = criteriaResults,
-                GenerationSource = "OpenAI ChatClient",
-                ErrorMessage = "The AI report could not be generated. Check the OpenAI configuration and try again."
+                Type = "error",
+                ErrorMessage = errorMessage
             };
+
+            yield break;
         }
+
+        yield return new ReportGenerationUpdate
+        {
+            Type = "complete"
+        };
     }
 }

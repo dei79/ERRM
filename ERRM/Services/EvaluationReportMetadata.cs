@@ -6,6 +6,26 @@ namespace ERRM.Services;
 
 public static class EvaluationReportMetadata
 {
+    public static EvaluationResultViewModel CreateResultSkeleton(
+        EvaluationViewModel evaluation,
+        string generationSource,
+        string templatePath = "")
+    {
+        var criteriaResults = CreateCriteriaResults(evaluation);
+        var averageRating = CalculateAverageRating(criteriaResults);
+        var overallLabel = GetOverallLabel(averageRating);
+
+        return new EvaluationResultViewModel
+        {
+            Evaluation = evaluation,
+            OverallLabel = overallLabel,
+            AverageRating = averageRating,
+            CriteriaResults = criteriaResults,
+            GenerationSource = generationSource,
+            TemplatePath = templatePath
+        };
+    }
+
     public static List<GeneratedEvaluationCriterionViewModel> CreateCriteriaResults(EvaluationViewModel evaluation)
     {
         return evaluation.CriteriaAnswers

@@ -34,22 +34,28 @@
 </div>
 
 <section class="mb-4">
+    @Html.AntiForgeryToken()
+
     <div class="d-flex justify-content-between align-items-center mb-2">
         <h2 class="h4 mb-0">Rendered report</h2>
         <span class="text-muted small">@Model.GenerationSource</span>
     </div>
-
-    @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
-    {
-        <div class="alert alert-danger">@Model.ErrorMessage</div>
-    }
 
     @if (!string.IsNullOrWhiteSpace(Model.TemplatePath))
     {
         <div class="text-muted small mb-2">Template: @Model.TemplatePath</div>
     }
 
-    <div class="border rounded p-3 bg-light" style="white-space: pre-wrap;">@Model.RenderedReport</div>
+    <div id="report-generation"
+         data-stream-url="@Url.Action("StreamReport", "ERRMEvaluation", new { id = Model.Evaluation.Id })">
+        <div id="report-status" class="alert alert-info mb-3">
+            The report is being generated now. Text will appear here as it streams in.
+        </div>
+
+        <div id="report-error" class="alert alert-danger d-none"></div>
+
+        <div id="rendered-report" class="border rounded p-3 bg-light" style="white-space: pre-wrap;">@Model.RenderedReport</div>
+    </div>
 </section>
 
 <section>

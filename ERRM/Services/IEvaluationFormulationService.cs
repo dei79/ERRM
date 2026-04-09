@@ -4,7 +4,7 @@ namespace ERRM.Services;
 
 public interface IEvaluationFormulationService
 {
-    Task<EvaluationResultViewModel> GenerateAsync(
+    IAsyncEnumerable<ReportGenerationUpdate> StreamAsync(
         EvaluationViewModel evaluation,
         CancellationToken cancellationToken = default);
 }
