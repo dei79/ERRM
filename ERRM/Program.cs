@@ -10,7 +10,8 @@ builder.Services.AddSingleton<IEvaluationRepository, JsonFileEvaluationRepositor
 builder.Services.AddSingleton<IEvaluationCriteriaRepository, JsonFileDefaultEvaluationCriteriaRepository>();
 builder.Services.AddSingleton<ITemplateEngineService, SimpleTemplateEngineService>();
 builder.Services.AddSingleton<IPromptGenerator, EvaluationPromptGenerator>();
-builder.Services.AddSingleton<IEvaluationFormulationService, RuleBasedEvaluationFormulationService>();
+builder.Services.AddSingleton<RuleBasedEvaluationFormulationService>();
+builder.Services.AddSingleton<IEvaluationFormulationService, AiEvaluationFormulationService>();
 
 var app = builder.Build();
 

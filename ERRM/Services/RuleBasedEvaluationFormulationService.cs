@@ -21,46 +21,24 @@ public class RuleBasedEvaluationFormulationService : IEvaluationFormulationServi
             "EvaluationReportTemplate.txt");
     }
 
-    public EvaluationResultViewModel Generate(EvaluationViewModel evaluation)
+    public Task<EvaluationResultViewModel> GenerateAsync(
+        EvaluationViewModel evaluation,
+        CancellationToken cancellationToken = default)
     {
-        var ratedCriteria = evaluation.CriteriaAnswers
-            .Where(answer => answer.Rating.HasValue)
-            .Select(answer => new GeneratedEvaluationCriterionViewModel
-            {
-                Title = answer.Title,
-                Rating = answer.Rating!.Value,
-                Formulation = ResolveFormulation(answer),
-                Comment = string.IsNullOrWhiteSpace(answer.Comment) ? null : answer.Comment.Trim()
-            })
-            .ToList();
+        var criteriaResults = EvaluationReportMetadata.CreateCriteriaResults(evaluation);
+        var averageRating = EvaluationReportMetadata.CalculateAverageRating(criteriaResults);
+        var overallLabel = EvaluationReportMetadata.GetOverallLabel(averageRating);
 
-        var averageRating = ratedCriteria.Count == 0
-            ? 0m
-            : Math.Round(ratedCriteria.Average(item => (decimal)item.Rating), 2, MidpointRounding.AwayFromZero);
-
-        var overallLabel = GetOverallLabel(averageRating);
-
-        return new EvaluationResultViewModel
+        return Task.FromResult(new EvaluationResultViewModel
         {
             Evaluation = evaluation,
             OverallLabel = overallLabel,
             AverageRating = averageRating,
-            CriteriaResults = ratedCriteria,
-            RenderedReport = BuildRenderedReport(evaluation, ratedCriteria, averageRating, overallLabel),
-            TemplatePath = _templatePath
-        };
-    }
-
-    private static string ResolveFormulation(EvaluationCriteriaAnswerViewModel answer)
-    {
-        var ratingKey = answer.Rating?.ToString(CultureInfo.InvariantCulture) ?? string.Empty;
-        if (answer.RatingScaleFormulations.TryGetValue(ratingKey, out var formulation) &&
-            !string.IsNullOrWhiteSpace(formulation))
-        {
-            return formulation.Trim();
-        }
-
-        return $"Was rated {ratingKey} on the {answer.RatingScale} scale.";
+            CriteriaResults = criteriaResults,
+            RenderedReport = BuildRenderedReport(evaluation, criteriaResults, averageRating, overallLabel),
+            TemplatePath = _templatePath,
+            GenerationSource = "Rule-based template"
+        });
     }
 
     private string BuildRenderedReport(
@@ -69,8 +47,8 @@ public class RuleBasedEvaluationFormulationService : IEvaluationFormulationServi
         decimal averageRating,
         string overallLabel)
     {
-        var fullName = BuildFullName(evaluation);
-        var criteriaSummary = BuildCriteriaSummary(criteriaResults);
+        var fullName = EvaluationReportMetadata.BuildFullName(evaluation);
+        var criteriaSummary = EvaluationReportMetadata.BuildCriteriaSummary(criteriaResults);
         var replacements = new Dictionary<string, string>
         {
             ["{{CompanyName}}"] = evaluation.CompanyName,
@@ -79,7 +57,7 @@ public class RuleBasedEvaluationFormulationService : IEvaluationFormulationServi
             ["{{CurrentDate}}"] = DateTime.Now.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
             ["{{FirstSignerName}}"] = evaluation.FirstSignerName,
             ["{{SecondSignerName}}"] = evaluation.SecondSignerName ?? string.Empty,
-            ["{{SignerBlock}}"] = BuildSignerBlock(evaluation),
+            ["{{SignerBlock}}"] = EvaluationReportMetadata.BuildSignerBlock(evaluation),
             ["{{Salutation}}"] = evaluation.Salutation,
             ["{{AcademicTitle}}"] = evaluation.AcademicTitle ?? string.Empty,
             ["{{FirstName}}"] = evaluation.FirstName,
@@ -96,70 +74,6 @@ public class RuleBasedEvaluationFormulationService : IEvaluationFormulationServi
         };
 
         return _templateEngineService.RenderFromFile(_templatePath, replacements, GetFallbackTemplate());
-    }
-
-    private static string GetOverallLabel(decimal averageRating)
-    {
-        if (averageRating >= 4.5m)
-        {
-            return "Outstanding";
-        }
-
-        if (averageRating >= 3.5m)
-        {
-            return "Strong";
-        }
-
-        if (averageRating >= 2.5m)
-        {
-            return "Solid";
-        }
-
-        if (averageRating >= 1.5m)
-        {
-            return "Developing";
-        }
-
-        return "Critical";
-    }
-
-    private static string BuildFullName(EvaluationViewModel evaluation)
-    {
-        return string.Join(
-            " ",
-            new[]
-            {
-                evaluation.Salutation,
-                evaluation.AcademicTitle,
-                evaluation.FirstName,
-                evaluation.LastName
-            }.Where(value => !string.IsNullOrWhiteSpace(value)));
-    }
-
-    private static string BuildCriteriaSummary(IEnumerable<GeneratedEvaluationCriterionViewModel> criteriaResults)
-    {
-        var builder = new StringBuilder();
-
-        foreach (var criterion in criteriaResults)
-        {
-            builder.Append($"{criterion.Title}: {criterion.Formulation}");
-
-            if (!string.IsNullOrWhiteSpace(criterion.Comment))
-            {
-                builder.Append($" Comment: {criterion.Comment}");
-            }
-
-            builder.AppendLine();
-        }
-
-        return builder.ToString().TrimEnd();
-    }
-
-    private static string BuildSignerBlock(EvaluationViewModel evaluation)
-    {
-        return string.IsNullOrWhiteSpace(evaluation.SecondSignerName)
-            ? evaluation.FirstSignerName
-            : $"{evaluation.FirstSignerName}\n{evaluation.SecondSignerName}";
     }
 
     private static string GetFallbackTemplate()

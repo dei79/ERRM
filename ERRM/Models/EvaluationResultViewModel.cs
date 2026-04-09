@@ -12,5 +12,9 @@ public class EvaluationResultViewModel
 
     public string RenderedReport { get; set; } = string.Empty;
 
+    public string GenerationSource { get; set; } = string.Empty;
+
+    public string? ErrorMessage { get; set; }
+
     public string TemplatePath { get; set; } = string.Empty;
 }

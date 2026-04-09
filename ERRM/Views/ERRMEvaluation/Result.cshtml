@@ -36,8 +36,19 @@
 <section class="mb-4">
     <div class="d-flex justify-content-between align-items-center mb-2">
         <h2 class="h4 mb-0">Rendered report</h2>
-        <span class="text-muted small">Template: @Model.TemplatePath</span>
+        <span class="text-muted small">@Model.GenerationSource</span>
     </div>
+
+    @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+    {
+        <div class="alert alert-danger">@Model.ErrorMessage</div>
+    }
+
+    @if (!string.IsNullOrWhiteSpace(Model.TemplatePath))
+    {
+        <div class="text-muted small mb-2">Template: @Model.TemplatePath</div>
+    }
+
     <div class="border rounded p-3 bg-light" style="white-space: pre-wrap;">@Model.RenderedReport</div>
 </section>
 

@@ -9,23 +9,10 @@ public class EvaluationPromptGenerator : IPromptGenerator
 {
     public EvaluationPrompt GenerateEvaluationPrompt(EvaluationViewModel evaluation)
     {
-        var ratedCriteria = evaluation.CriteriaAnswers
-            .Where(answer => answer.Rating.HasValue)
-            .Select(answer => new GeneratedEvaluationCriterionViewModel
-            {
-                Title = answer.Title,
-                Rating = answer.Rating!.Value,
-                Formulation = ResolveFormulation(answer),
-                Comment = string.IsNullOrWhiteSpace(answer.Comment) ? null : answer.Comment.Trim()
-            })
-            .ToList();
-
-        var averageRating = ratedCriteria.Count == 0
-            ? 0m
-            : Math.Round(ratedCriteria.Average(item => (decimal)item.Rating), 2, MidpointRounding.AwayFromZero);
-
-        var overallLabel = GetOverallLabel(averageRating);
-        var promptText = BuildPromptText(evaluation, ratedCriteria, averageRating, overallLabel);
+        var criteriaResults = EvaluationReportMetadata.CreateCriteriaResults(evaluation);
+        var averageRating = EvaluationReportMetadata.CalculateAverageRating(criteriaResults);
+        var overallLabel = EvaluationReportMetadata.GetOverallLabel(averageRating);
+        var promptText = BuildPromptText(evaluation, criteriaResults, averageRating, overallLabel);
 
         return new EvaluationPrompt
         {
@@ -46,7 +33,7 @@ public class EvaluationPromptGenerator : IPromptGenerator
         string overallLabel)
     {
         var builder = new StringBuilder();
-        var fullName = BuildFullName(evaluation);
+        var fullName = EvaluationReportMetadata.BuildFullName(evaluation);
 
         builder.AppendLine("Create a formal employee evaluation report using the data below.");
         builder.AppendLine("Return report text only, without markdown or bullet points in the final answer.");
@@ -102,55 +89,5 @@ public class EvaluationPromptGenerator : IPromptGenerator
         builder.AppendLine("Use the rating formulations verbatim where they fit naturally, keep the tone professional, and ensure the report remains internally consistent.");
 
         return builder.ToString().TrimEnd();
-    }
-
-    private static string ResolveFormulation(EvaluationCriteriaAnswerViewModel answer)
-    {
-        var ratingKey = answer.Rating?.ToString(CultureInfo.InvariantCulture) ?? string.Empty;
-        if (answer.RatingScaleFormulations.TryGetValue(ratingKey, out var formulation) &&
-            !string.IsNullOrWhiteSpace(formulation))
-        {
-            return formulation.Trim();
-        }
-
-        return $"Was rated {ratingKey} on the {answer.RatingScale} scale.";
-    }
-
-    private static string GetOverallLabel(decimal averageRating)
-    {
-        if (averageRating >= 4.5m)
-        {
-            return "Outstanding";
-        }
-
-        if (averageRating >= 3.5m)
-        {
-            return "Strong";
-        }
-
-        if (averageRating >= 2.5m)
-        {
-            return "Solid";
-        }
-
-        if (averageRating >= 1.5m)
-        {
-            return "Developing";
-        }
-
-        return "Critical";
-    }
-
-    private static string BuildFullName(EvaluationViewModel evaluation)
-    {
-        return string.Join(
-            " ",
-            new[]
-            {
-                evaluation.Salutation,
-                evaluation.AcademicTitle,
-                evaluation.FirstName,
-                evaluation.LastName
-            }.Where(value => !string.IsNullOrWhiteSpace(value)));
     }
 }

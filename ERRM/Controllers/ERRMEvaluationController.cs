@@ -56,7 +56,7 @@ namespace ERRM.Controllers
             return RedirectToAction(nameof(Result), new { id = model.Id });
         }
 
-        public async Task<ActionResult> Result(string id)
+        public async Task<ActionResult> Result(string id, CancellationToken cancellationToken)
         {
             var evaluation = await evaluationRepository.GetByIdAsync(id);
             if (evaluation is null)
@@ -64,7 +64,7 @@ namespace ERRM.Controllers
                 return NotFound();
             }
 
-            var result = evaluationFormulationService.Generate(evaluation);
+            var result = await evaluationFormulationService.GenerateAsync(evaluation, cancellationToken);
             return View(result);
         }
 
