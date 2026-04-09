@@ -5,6 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddOpenAI(builder.Configuration);
 builder.Services.AddSingleton<IEvaluationRepository, JsonFileEvaluationRepository>();
 builder.Services.AddSingleton<IEvaluationCriteriaRepository, JsonFileDefaultEvaluationCriteriaRepository>();
 builder.Services.AddSingleton<ITemplateEngineService, SimpleTemplateEngineService>();

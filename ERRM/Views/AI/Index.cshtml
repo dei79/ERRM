@@ -1,0 +1,41 @@
+@model ERRM.Models.HelloWorldAIViewModel
+
+@{
+    ViewData["Title"] = "AI Hello World";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="display-6 mb-1">AI Hello World</h1>
+        <p class="text-muted mb-0">Test the registered <code>IChatClient</code> with a minimal prompt.</p>
+    </div>
+</div>
+
+<section class="border rounded p-4 bg-light">
+    <form asp-action="Index" asp-controller="AI" method="post">
+        @Html.AntiForgeryToken()
+        <div class="mb-3">
+            <label asp-for="SystemPrompt" class="form-label"></label>
+            <textarea asp-for="SystemPrompt" class="form-control" rows="4"></textarea>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Prompt" class="form-label"></label>
+            <textarea asp-for="Prompt" class="form-control" rows="4"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Send Prompt</button>
+    </form>
+</section>
+
+@if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+{
+    <section class="alert alert-danger mt-4 mb-0">
+        @Model.ErrorMessage
+    </section>
+}
+else if (!string.IsNullOrWhiteSpace(Model.Response))
+{
+    <section class="mt-4">
+        <h2 class="h4">Model response</h2>
+        <div class="border rounded p-3 bg-white" style="white-space: pre-wrap;">@Model.Response</div>
+    </section>
+}
