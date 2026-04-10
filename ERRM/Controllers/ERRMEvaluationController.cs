@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using ERRM.Models;
 using ERRM.Repository;
 using ERRM.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ERRM.Controllers
 {
+    [Authorize]
     public class ERRMEvaluationController(
         IEvaluationRepository evaluationRepository,
         IEvaluationCriteriaRepository evaluationCriteriaRepository,

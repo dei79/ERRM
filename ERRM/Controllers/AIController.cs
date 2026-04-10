@@ -1,9 +1,11 @@
 using ERRM.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.AI;
 
 namespace ERRM.Controllers;
 
+[Authorize]
 public class AIController(
     IChatClient chatClient,
     ILogger<AIController> logger) : Controller
