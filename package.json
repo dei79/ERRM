@@ -1,0 +1,11 @@
+{
+  "name": "errm",
+  "private": true,
+  "scripts": {
+    "build:scss": "sass --style=expanded --no-source-map ERRM/wwwroot/scss/site.scss:ERRM/wwwroot/css/site.css ERRM/Views/Shared/_Layout.cshtml.scss:ERRM/Views/Shared/_Layout.cshtml.css",
+    "watch:scss": "sass --watch --style=expanded --no-source-map ERRM/wwwroot/scss/site.scss:ERRM/wwwroot/css/site.css ERRM/Views/Shared/_Layout.cshtml.scss:ERRM/Views/Shared/_Layout.cshtml.css"
+  },
+  "devDependencies": {
+    "sass": "^1.93.2"
+  }
+}

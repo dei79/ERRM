@@ -1,0 +1,40 @@
+$font-size-base-mobile: 14px;
+$font-size-base-desktop: 16px;
+$focus-ring-inner-color: white;
+$focus-ring-outer-color: #258cfb;
+$footer-height: 60px;
+
+html {
+  font-size: $font-size-base-mobile;
+  position: relative;
+  min-height: 100%;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: $font-size-base-desktop;
+  }
+}
+
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem $focus-ring-inner-color, 0 0 0 0.25rem $focus-ring-outer-color;
+}
+
+body {
+  margin-bottom: $footer-height;
+}
+
+.form-floating > .form-control-plaintext::placeholder,
+.form-floating > .form-control::placeholder {
+  color: var(--bs-secondary-color);
+  text-align: end;
+}
+
+.form-floating > .form-control-plaintext:focus::placeholder,
+.form-floating > .form-control:focus::placeholder {
+  text-align: start;
+}
