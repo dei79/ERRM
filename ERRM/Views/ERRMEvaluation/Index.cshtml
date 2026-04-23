@@ -4,19 +4,27 @@
     ViewData["Title"] = "Evaluations";
 }
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h1 class="display-5 mb-0">Evaluations</h1>
+<section class="page-banner">
+    <div>
+        <span class="eyebrow">Overview</span>
+        <h1 class="display-5 mb-2">Evaluations</h1>
+        <p class="page-banner__text mb-0">Browse saved reviews, open generated reports, and continue the evaluation workflow.</p>
+    </div>
     <a class="btn btn-primary" asp-controller="ERRMEvaluation" asp-action="New">New evaluation</a>
-</div>
+</section>
 
 @if (Model.Count == 0)
 {
-    <p>No evaluations stored yet.</p>
+    <section class="empty-state">
+        <h2 class="h4">No evaluations stored yet.</h2>
+        <p class="mb-0">Create your first review to start building structured evaluation reports.</p>
+    </section>
 }
 else
 {
-    <div class="table-responsive">
-        <table class="table table-striped table-bordered align-middle">
+    <section class="data-card">
+        <div class="table-responsive">
+        <table class="table table-striped align-middle app-table mb-0">
             <thead>
                 <tr>
                     <th>Name</th>
@@ -53,5 +61,6 @@ else
                 }
             </tbody>
         </table>
-    </div>
+        </div>
+    </section>
 }

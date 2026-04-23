@@ -4,14 +4,15 @@
     ViewData["Title"] = "AI Hello World";
 }
 
-<div class="d-flex justify-content-between align-items-center mb-4">
+<section class="page-banner page-banner--stacked">
     <div>
+        <span class="eyebrow">AI workspace</span>
         <h1 class="display-6 mb-1">AI Hello World</h1>
         <p class="text-muted mb-0">Test the registered <code>IChatClient</code> with a minimal prompt.</p>
     </div>
-</div>
+</section>
 
-<section class="border rounded p-4 bg-light">
+<section class="data-card">
     <form asp-action="Index" asp-controller="AI" method="post">
         @Html.AntiForgeryToken()
         <div class="mb-3">
@@ -34,8 +35,8 @@
 }
 else if (!string.IsNullOrWhiteSpace(Model.Response))
 {
-    <section class="mt-4">
+    <section class="data-card mt-4">
         <h2 class="h4">Model response</h2>
-        <div class="border rounded p-3 bg-white" style="white-space: pre-wrap;">@Model.Response</div>
+        <div class="report-surface report-surface--light">@Model.Response</div>
     </section>
 }

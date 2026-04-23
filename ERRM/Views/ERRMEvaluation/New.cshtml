@@ -4,13 +4,25 @@
     ViewData["Title"] = "New Evaluation";
 }
 
-<h1 class="display-5 mb-4">New evaluation</h1>
+<section class="page-banner page-banner--stacked">
+    <div>
+        <span class="eyebrow">Workspace</span>
+        <h1 class="display-5 mb-2">New evaluation</h1>
+        <p class="page-banner__text mb-0">Capture the full context for a professional employee evaluation report.</p>
+    </div>
+</section>
 
-<form asp-action="New" asp-controller="ERRMEvaluation" method="post" class="row g-4">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<form asp-action="New" asp-controller="ERRMEvaluation" method="post" class="row g-4 app-form">
+    <div asp-validation-summary="ModelOnly" class="text-danger validation-banner"></div>
 
-    <section class="col-12">
-        <h2 class="h4">Issuer of the evaluation</h2>
+    <section class="col-12 form-section">
+        <div class="form-section__header">
+            <span class="form-section__step">01</span>
+            <div>
+                <h2 class="h4 mb-1">Issuer of the evaluation</h2>
+                <p class="text-muted mb-0">Define the company and signing context for the report.</p>
+            </div>
+        </div>
         <div class="row g-3">
             <div class="col-md-6">
                 <label asp-for="CompanyName" class="form-label"></label>
@@ -40,8 +52,14 @@
         </div>
     </section>
 
-    <section class="col-12">
-        <h2 class="h4">General information about the person</h2>
+    <section class="col-12 form-section">
+        <div class="form-section__header">
+            <span class="form-section__step">02</span>
+            <div>
+                <h2 class="h4 mb-1">General information about the person</h2>
+                <p class="text-muted mb-0">Record the employee identity details used throughout the evaluation.</p>
+            </div>
+        </div>
         <div class="row g-3">
             <div class="col-md-4">
                 <label asp-for="Salutation" class="form-label"></label>
@@ -75,8 +93,14 @@
         </div>
     </section>
 
-    <section class="col-12">
-        <h2 class="h4">Information to the position</h2>
+    <section class="col-12 form-section">
+        <div class="form-section__header">
+            <span class="form-section__step">03</span>
+            <div>
+                <h2 class="h4 mb-1">Information to the position</h2>
+                <p class="text-muted mb-0">Add role and department details to frame the evaluation outcome.</p>
+            </div>
+        </div>
         <div class="row g-3">
             <div class="col-md-4">
                 <label asp-for="Department" class="form-label"></label>
@@ -96,18 +120,25 @@
         </div>
     </section>
 
-    <section class="col-12">
-        <h2 class="h4">Evaluation questions</h2>
+    <section class="col-12 form-section">
+        <div class="form-section__header">
+            <span class="form-section__step">04</span>
+            <div>
+                <h2 class="h4 mb-1">Evaluation questions</h2>
+                <p class="text-muted mb-0">Rate each criterion and add supporting context where comments are allowed.</p>
+            </div>
+        </div>
         <div class="row g-3">
             @for (var i = 0; i < Model.CriteriaAnswers.Count; i++)
             {
                 <div class="col-12">
-                    <div class="border rounded p-3">
+                    <div class="criteria-card">
                         <input asp-for="CriteriaAnswers[i].Title" type="hidden" />
                         <input asp-for="CriteriaAnswers[i].Description" type="hidden" />
                         <input asp-for="CriteriaAnswers[i].RatingScale" type="hidden" />
                         <input asp-for="CriteriaAnswers[i].CommentAllowed" type="hidden" />
 
+                        <div class="criteria-card__topline">Criterion @(i + 1)</div>
                         <h3 class="h5 mb-1">@Model.CriteriaAnswers[i].Title</h3>
                         <p class="text-muted mb-3">@Model.CriteriaAnswers[i].Description</p>
 
@@ -144,8 +175,8 @@
         </div>
     </section>
 
-    <div class="col-12">
-        <button type="submit" class="btn btn-primary">Save evaluation</button>
+    <div class="col-12 form-actions">
+        <button type="submit" class="btn btn-primary btn-lg">Save evaluation</button>
     </div>
 </form>
 

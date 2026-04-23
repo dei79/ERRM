@@ -1,43 +1,157 @@
-$link-color: #0077cc;
-$primary-color: #1b6ec2;
-$primary-border-color: #1861ac;
-$border-color: #e5e5e5;
-$shadow-color: rgba(0, 0, 0, 0.05);
-$footer-height: 60px;
-
-a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+.app-shell {
+  position: relative;
+  min-height: 100vh;
+  overflow: clip;
 }
 
-a {
-  color: $link-color;
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  padding: 1rem 0 0;
 }
 
-.btn-primary {
-  color: #fff;
-  background-color: $primary-color;
-  border-color: $primary-border-color;
+.app-nav {
+  padding: 0.95rem 1.1rem;
+  border: 1px solid rgba(73, 87, 122, 0.14);
+  border-radius: 1.5rem;
+  background: rgba(255, 253, 248, 0.78);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 18px 40px -26px rgba(31, 36, 64, 0.3);
 }
 
-.nav-pills .nav-link.active,
-.nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: $primary-color;
-  border-color: $primary-border-color;
+.app-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.9rem;
+  color: #21314d;
+  text-decoration: none;
 }
 
-.border-top {
-  border-top: 1px solid $border-color;
+.app-brand__mark {
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 1rem;
+  background: linear-gradient(135deg, #21314d 0%, #36517f 100%);
+  color: #fff8f1;
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
 }
 
-.border-bottom {
-  border-bottom: 1px solid $border-color;
+.app-brand__text {
+  display: flex;
+  flex-direction: column;
 }
 
-.box-shadow {
-  box-shadow: 0 0.25rem 0.75rem $shadow-color;
+.app-brand__title {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+}
+
+.app-brand__subtitle {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #8b6f56;
+}
+
+.app-nav-links,
+.app-account-nav {
+  gap: 0.35rem;
+}
+
+.app-nav-links .nav-link,
+.app-account-nav .nav-link {
+  border-radius: 999px;
+  color: #21314d;
+  font-weight: 700;
+  padding: 0.6rem 0.95rem;
+}
+
+.app-nav-links .nav-link:hover,
+.app-account-nav .nav-link:hover,
+.app-nav-links .nav-link:focus,
+.app-account-nav .nav-link:focus {
+  background: rgba(201, 111, 74, 0.12);
+  color: #9f4a2b;
+}
+
+.app-user-label {
+  color: #66708f;
+  font-size: 0.93rem;
+}
+
+.app-backdrop {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.app-backdrop__orb {
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(10px);
+  opacity: 0.9;
+}
+
+.app-backdrop__orb--one {
+  top: 5rem;
+  left: -6rem;
+  width: 18rem;
+  height: 18rem;
+  background: radial-gradient(circle, rgba(239, 225, 203, 0.95), rgba(239, 225, 203, 0));
+}
+
+.app-backdrop__orb--two {
+  top: 10rem;
+  right: -5rem;
+  width: 16rem;
+  height: 16rem;
+  background: radial-gradient(circle, rgba(220, 238, 229, 0.85), rgba(220, 238, 229, 0));
+}
+
+.app-main {
+  position: relative;
+  z-index: 1;
+}
+
+.app-content {
+  padding-top: 2rem;
+  padding-bottom: 3rem;
+}
+
+.app-footer {
+  position: relative;
+  z-index: 1;
+  padding: 0 0 2rem;
+}
+
+.app-footer__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.2rem 1.4rem;
+  border: 1px solid rgba(73, 87, 122, 0.14);
+  border-radius: 1.4rem;
+  background: rgba(255, 253, 248, 0.68);
+  backdrop-filter: blur(14px);
+}
+
+.app-footer__title {
+  font-weight: 800;
+  color: #21314d;
+}
+
+.app-footer__copy {
+  color: #66708f;
+  font-size: 0.92rem;
 }
 
 button.accept-policy {
@@ -45,10 +159,21 @@ button.accept-policy {
   line-height: inherit;
 }
 
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: $footer-height;
+@media (max-width: 767.98px) {
+  .app-header {
+    padding-top: 0.7rem;
+  }
+
+  .app-nav {
+    border-radius: 1.2rem;
+  }
+
+  .app-brand__subtitle {
+    letter-spacing: 0.08em;
+  }
+
+  .app-footer__inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }

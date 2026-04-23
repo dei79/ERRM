@@ -2,7 +2,54 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<section class="hero-panel">
+    <div class="hero-panel__content">
+        <span class="eyebrow">Employee review workflow</span>
+        <h1 class="hero-panel__title">Create polished evaluation reports with a calmer, faster process.</h1>
+        <p class="hero-panel__text">
+            ERRM helps teams capture structured employee feedback, generate readable assessments, and turn evaluation data into consistent reports.
+        </p>
+        <div class="hero-panel__actions">
+            <a class="btn btn-primary btn-lg" asp-controller="ERRMEvaluation" asp-action="New">Start a new evaluation</a>
+            <a class="btn btn-outline-secondary btn-lg" asp-controller="ERRMEvaluation" asp-action="Index">Browse evaluations</a>
+        </div>
+    </div>
+    <div class="hero-panel__metrics">
+        <div class="metric-card">
+            <span class="metric-card__value">5-step</span>
+            <span class="metric-card__label">guided review flow</span>
+        </div>
+        <div class="metric-card">
+            <span class="metric-card__value">AI-ready</span>
+            <span class="metric-card__label">prompt-assisted formulation</span>
+        </div>
+        <div class="metric-card">
+            <span class="metric-card__value">Bootstrap</span>
+            <span class="metric-card__label">responsive layout foundation</span>
+        </div>
+    </div>
+</section>
+
+<section class="row g-4">
+    <div class="col-lg-4">
+        <article class="feature-card h-100">
+            <span class="feature-card__index">01</span>
+            <h2 class="h4">Capture structured input</h2>
+            <p>Collect issuer details, employee context, role data, and criteria-based ratings in one guided form.</p>
+        </article>
+    </div>
+    <div class="col-lg-4">
+        <article class="feature-card h-100">
+            <span class="feature-card__index">02</span>
+            <h2 class="h4">Generate report language</h2>
+            <p>Transform ratings and comments into clearer wording for evaluation reports and narrative summaries.</p>
+        </article>
+    </div>
+    <div class="col-lg-4">
+        <article class="feature-card h-100">
+            <span class="feature-card__index">03</span>
+            <h2 class="h4">Review the final result</h2>
+            <p>Inspect classification, rating trends, and the rendered report output before sharing or iterating.</p>
+        </article>
+    </div>
+</section>
