@@ -3,7 +3,6 @@ using ERRM.Repository;
 using ERRM.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.AspNetCore.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 var oidcSection = builder.Configuration.GetSection(OidcSettings.SectionName);
@@ -61,12 +60,7 @@ builder.Services
         }
     });
 
-builder.Services.AddAuthorization(options =>
-{
-    options.FallbackPolicy = new AuthorizationPolicyBuilder()
-        .RequireAuthenticatedUser()
-        .Build();
-});
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
